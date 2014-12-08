@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TRData Doors</string>
+    <string name="door_status">Toilet: %s</string>
+    <string name="door_open">Open</string>
+    <string name="door_closed">Busy</string>
+    <string name="door_unknown">Unknown</string>
+    <string name="door_open_message">Opening the front door...</string>
+    <string name="door_click_again_message">Quickly click again to open the door</string>
+</resources>

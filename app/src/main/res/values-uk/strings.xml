@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Двері TRData</string>
+    <string name="door_open">Вільний</string>
+    <string name="door_status">Туалет: %s</string>
+    <string name="door_closed">Зайнятий</string>
+    <string name="door_unknown">Невідомо</string>
+    <string name="door_open_message">Відчиняю вхідні двері...</string>
+    <string name="door_click_again_message">Швидко натисніть ще раз щоб відкрити вхідні двері</string>
+</resources>

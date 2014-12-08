@@ -1,0 +1,28 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.trdata.tolietwidget">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <application android:allowBackup="true" android:label="@string/app_name"
+        android:icon="@drawable/ic_launcher" android:theme="@style/AppTheme">
+        <receiver android:name=".ToiletWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.trdata.toiletwidget.action.UPDATE_TOILET_STATUS" />
+                <action android:name="com.trdata.toiletwidget.action.UNLOCK_DOOR" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/toilet_widget_info" />
+        </receiver>
+        <receiver android:name=".ClickReceiver" >
+            <intent-filter>
+                <action android:name="com.trdata.toiletwidget.action.UNLOCK_DOOR" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        <service android:enabled="true" android:name=".ToiletService" />
+
+    </application>
+</manifest>
