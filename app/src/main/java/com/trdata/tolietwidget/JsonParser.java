@@ -9,6 +9,6 @@ import org.json.JSONObject;
 public class JsonParser {
     static boolean parseDoorJson(String json) throws JSONException {
         JSONObject root = new JSONObject(json);
-        return root.getBoolean("wc_locked");
+        return !root.getBoolean("wc_locked");
     }
 }

@@ -4,19 +4,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by blackjack on 06.12.14.
@@ -60,23 +63,32 @@ public class ClickReceiver extends BroadcastReceiver {
     }
 
     void openTheDoor() {
-        DefaultHttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
-        HttpPost httppost = new HttpPost(urlPath);
-        httppost.setParams(new BasicHttpParams().setParameter("command","open_entry_door"));
 
-        InputStream inputStream = null;
-        String result = null;
-        try {
-            HttpResponse response = httpClient.execute(httppost);
-            HttpEntity entity = response.getEntity();
+        class OpenTheDoorTask extends AsyncTask<Void, Void, Void> {
 
-            inputStream = entity.getContent();
-            while (inputStream.read()!=1) {}
-        } catch (Exception e) {
-            Log.w("ClickReceiver","Failed to open the door: " + e.getMessage());
+            @Override
+            protected Void doInBackground(Void... voids) {
+                DefaultHttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
+                HttpPost httppost = new HttpPost(urlPath);
+
+                InputStream inputStream = null;
+                try {
+                    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                    nameValuePairs.add(new BasicNameValuePair("command", "open_entry_door"));
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                    httpClient.execute(httppost);
+
+                } catch (Exception e) {
+                    Log.w("ClickReceiver","Failed to open the door: " + e.getMessage());
+                }
+                finally {
+                    try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
+                }
+                return null;
+            }
         }
-        finally {
-            try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
-        }
+
+        new OpenTheDoorTask().execute();
     }
 }
